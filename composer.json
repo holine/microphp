@@ -1,0 +1,14 @@
+{
+    "name": "holine/microphp",
+    "description": "一个简单的PHP框架",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Holine Studio",
+            "email": "develop@holine.studio"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
