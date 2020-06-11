@@ -3,15 +3,19 @@
     "description": "一个简单的PHP框架",
     "type": "library",
     "license": "MIT",
-    "authors": [{
-        "name": "Holine Studio",
-        "email": "develop@holine.studio"
-    }],
+    "authors": [
+        {
+            "name": "Holine Studio",
+            "email": "develop@holine.studio"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "MicroPHP\\": "src/"
         }
     },
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "php": ">=7.3.0"
+    }
 }
