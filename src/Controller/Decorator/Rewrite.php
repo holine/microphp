@@ -3,11 +3,13 @@
 namespace MicroPHP\Controller\Decorator;
 
 use MicroPHP\Controller\Decorator;
+use MicroPHP\Controller\Request;
+use MicroPHP\Controller\Response;
 use MicroPHP\Library\Configure;
 
 class Rewrite extends Decorator
 {
-    public function execute($request, $response)
+    public function execute(Request $request, Response $response)
     {
         foreach (Configure::read('decorator.rewrite') as $pattern => $rules) {
             if (preg_match_all($pattern, $request->server('REQUEST_URI'), $match)) {
@@ -20,5 +22,6 @@ class Rewrite extends Decorator
                 break;
             }
         }
+        parent::execute($request, $response);
     }
 }

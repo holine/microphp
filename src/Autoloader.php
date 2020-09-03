@@ -2,22 +2,30 @@
 
 namespace MicroPHP;
 
-use MicroPHP\Library\Singleton;
+spl_autoload_register(fn ($class) => autoload($class));
 
-foreach (glob(__DIR__ . '/Functions/*.php') as $path) {
-    require_once($path);
+function autoload(String $class, String $namespace = __NAMESPACE__, String $path = __DIR__)
+{
+    if (strpos($class, $namespace . '\\') === 0) {
+        $path = $path . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, substr($class, strlen($namespace) + 1)) . '.php';
+        if (is_readable($path)) {
+            require $path;
+        }
+    }
 }
-
-spl_autoload_register(function ($class) {
-    autoload($class);
-});
 
 class Autoloader
 {
-    public $namespace;
-
+    public $namespace = null;
     public function __construct($config = null)
     {
-        $this->namespace = Singleton::getInstance('MicroPHP\Library\Namespaces');
+    }
+    public function run($var = null)
+    {
+    }
+    public function namespace(): Library\Namespaces
+    {
+        $this->namespace ??= new Library\Namespaces();
+        return $this->namespace;
     }
 }

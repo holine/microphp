@@ -4,25 +4,21 @@ namespace MicroPHP\Controller;
 
 class Request
 {
-    protected $server = [];
-    protected $get = [];
-    protected $post = [];
-    protected $cookie = [];
-    protected $request = [];
-    protected $files = [];
-    protected $env = [];
-    protected $session = [];
+    protected array $server = [];
+    protected array $get = [];
+    protected array $post = [];
+    protected array $cookie = [];
+    protected array $request = [];
+    protected array $files = [];
 
     public function __construct()
     {
-        $this->server = $_SERVER ?? [];
-        $this->get = $_GET ?? [];
-        $this->post = $_POST ?? [];
-        $this->cookie = $_COOKIE ?? [];
-        $this->request = $_REQUEST ?? [];
-        $this->files = $_FILES ?? [];
-        $this->env = $_ENV ?? [];
-        $this->session = $_SESSION ?? [];
+        $this->server = $_SERVER;
+        $this->get = $_GET;
+        $this->post = $_POST;
+        $this->cookie = $_COOKIE;
+        $this->request = $_REQUEST;
+        $this->files = $_FILES;
     }
 
     public function server($key = null, $value = null)
@@ -61,26 +57,13 @@ class Request
         return $this->call(__FUNCTION__, ...$argv);
     }
 
-    public function env($key = null)
-    {
-        $argv = func_get_args();
-        return $this->call(__FUNCTION__, ...$argv);
-    }
-
-    public function session($key = null)
-    {
-        session_start();
-        $argv = func_get_args();
-        return $this->call(__FUNCTION__, ...$argv);
-    }
-
     protected function call($fn, $key = null, $value = null)
     {
-        switch (func_num_args()) {
-            case 2:
+        switch (func_num_args() - 1) {
+            case 1:
                 return $this->$fn[$key] ?? null;
                 break;
-            case 3:
+            case 2:
                 $this->$fn[$key] = $value;
                 break;
             default:
