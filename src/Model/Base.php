@@ -33,4 +33,9 @@ class Base
     {
         return $this->handle->query($sql);
     }
+
+    public function prepare(string $sql)
+    {
+        return $this->handle->prepare($sql);
+    }
 }
