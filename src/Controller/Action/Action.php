@@ -9,6 +9,10 @@ class Action extends \MicroPHP\Controller\Action
 {
     public function execute(Request $request, Response $response)
     {
-        $this->handle->compile()->execute($request, $response);
+        $object = $this->handle->compile();
+        while ($handle = get_object_vars($object)['handle'] ?? false) {
+            $object = $handle;
+        }
+        $object->execute($request, $response);
     }
 }
