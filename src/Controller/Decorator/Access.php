@@ -22,9 +22,9 @@ class Access extends Decorator
             'spider' => 0,
         ];
         $column = implode('`,`', array_keys($data));
-        $marker = implode(',', array_fill(0, count($data), '?'));
-        $sth = (new Base())->prepare("INSERT INTO `asscss` (`{$column}`) values ({$marker})");
-        $sth->execute($data);
+        $marker = implode(', ', array_fill(0, count($data), '?'));
+        $sth = (new Base())->prepare("INSERT INTO `access` (`{$column}`) values ({$marker})");
+        $sth->execute(array_values($data));
         parent::execute($request, $response);
     }
 }
