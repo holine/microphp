@@ -20,7 +20,7 @@ abstract class Action
         $decorators = [];
         for (
             $class = get_class($action);
-            $vars  = get_class_vars($class);
+            $vars  = $class ? get_class_vars($class) : false;
             $class = get_parent_class($class)
         ) {
             foreach ($vars['decorators'] ?? [] as $decorator => $name) {
