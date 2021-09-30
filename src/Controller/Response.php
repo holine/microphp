@@ -2,9 +2,6 @@
 
 namespace MicroPHP\Controller;
 
-class Response
+abstract class Response
 {
-    public function send()
-    {
-    }
 }
