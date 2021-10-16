@@ -5,10 +5,12 @@ namespace MicroPHP\Controller;
 abstract class Request
 {
     protected array $env = [];
+    protected array $server = [];
 
     public function __construct()
     {
         $this->env = $_ENV;
+        $this->server = $_SERVER;
     }
 
     public function env($key = null, $value = null)
@@ -29,5 +31,11 @@ abstract class Request
             default:
                 return $this->$fn;
         }
+    }
+
+    public function server($key = null, $value = null)
+    {
+        $argv = func_get_args();
+        return $this->call(__FUNCTION__, ...$argv);
     }
 }

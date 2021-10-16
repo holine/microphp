@@ -6,7 +6,7 @@ use MicroPHP\Controller\Request;
 
 class ShellRequest extends Request
 {
-    protected array parameters = [];
+    protected array $parameters = [];
 
     public function parameters($key = null, $value = null)
     {

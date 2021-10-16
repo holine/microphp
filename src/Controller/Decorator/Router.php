@@ -14,7 +14,7 @@ class Router extends Decorator
     public string $action;
     protected function match($uri, $request)
     {
-        $this->project =  Configure::read('decorator.router.default.project', '');
+        $this->project =  $request->server('REQUEST_PROJECT') ?? Configure::read('decorator.router.default.project', '');
         $this->controller = Configure::read('decorator.router.default.controller', '');
         $this->action = Configure::read('decorator.router.default.action', '');
         if (empty($this->project)) {
@@ -46,8 +46,8 @@ class Router extends Decorator
 
         $path = explode('/', ltrim($uri, '/'));
 
-        $this->controller = empty($path[0]) ? $this->controller : $path[0];
-        $this->action = empty($path[1]) ? $this->action : $path[1];
+        $this->controller = $path[0] ?? $this->controller;
+        $this->action = $path[1] ?? $this->action;
 
         $prefix = Configure::read("decorator.router.{$this->project}.prefix")
             ?? Configure::read('decorator.router.default.prefix')
@@ -58,7 +58,6 @@ class Router extends Decorator
     public function execute(Request $request, Response $response)
     {
         $uri = parse_url($request->server('REQUEST_URI'), PHP_URL_PATH);
-        $this->project = (string) $request->server('REQUEST_PROJECT');
         if ($action = $this->match($uri, $request)) {
             $this->prev()->handle($this->load($action));
         }

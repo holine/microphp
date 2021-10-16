@@ -11,7 +11,6 @@ class HttpRequest extends Request
     protected array $get = [];
     protected array $post = [];
     protected array $request = [];
-    protected array $server = [];
 
     public function __construct()
     {
@@ -20,7 +19,6 @@ class HttpRequest extends Request
         $this->get = $_GET;
         $this->post = $_POST;
         $this->request = $_REQUEST;
-        $this->server = $_SERVER;
         parent::__construct();
     }
 
@@ -49,12 +47,6 @@ class HttpRequest extends Request
     }
 
     public function request($key = null, $value = null)
-    {
-        $argv = func_get_args();
-        return $this->call(__FUNCTION__, ...$argv);
-    }
-
-    public function server($key = null, $value = null)
     {
         $argv = func_get_args();
         return $this->call(__FUNCTION__, ...$argv);
