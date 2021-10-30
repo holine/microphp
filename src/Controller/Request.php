@@ -2,7 +2,7 @@
 
 namespace MicroPHP\Controller;
 
-abstract class Request
+class Request
 {
     protected array $cookie = [];
     protected array $env = [];
