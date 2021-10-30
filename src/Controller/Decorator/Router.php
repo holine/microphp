@@ -14,7 +14,7 @@ class Router extends Decorator
     public string $action;
     protected function match($uri, $request)
     {
-        $this->project =  $request->server('REQUEST_PROJECT');
+        $this->project = $request->server('REQUEST_PROJECT') ?? '';
         if (empty($this->project)) {
             $aliases = Configure::read('decorator.router.aliases');
             if (!empty($aliases)) {
@@ -34,7 +34,7 @@ class Router extends Decorator
         }
 
         $path = explode('/', trim($uri, '/'));
-        
+
         if (empty($this->project)) {
             $this->project = array_shift($path) ?? Configure::read('decorator.router.default.project');
         }
