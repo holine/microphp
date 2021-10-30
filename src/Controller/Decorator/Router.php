@@ -42,8 +42,8 @@ class Router extends Decorator
 
         $path = explode('/', trim($uri, '/'));
 
-        $this->controller = $path[0] ?? $this->controller;
-        $this->action = $path[1] ?? $this->action;
+        $this->controller = array_shift($path) ?? $this->controller;
+        $this->action = empty($path) ? $this->action : implode('\\', $path);
 
         $prefix = Configure::read("decorator.router.{$this->project}.prefix")
             ?? Configure::read('decorator.router.default.prefix')
