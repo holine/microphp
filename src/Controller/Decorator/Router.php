@@ -23,7 +23,7 @@ class Router extends Decorator
                 foreach ($aliases as $alias => $config) {
                     if (preg_match($alias, $uri, $matches)) {
                         $this->project = $config['project'];
-                        $uri = $config['controller'] . '/' . $config['action'];
+                        $uri = "{$config['controller']}/{$config['action']}";
                         if (!empty($config['params'])) {
                             foreach ($config['params'] as $k => $v) {
                                 $request->get($v, $matches[$k + 1]);
@@ -34,17 +34,13 @@ class Router extends Decorator
             }
 
             if (empty($this->project)) {
-                if (strpos($uri, '/')) {
-                    $this->project = substr($uri, 0, strpos($uri, '/'));
-                    $uri = substr($uri, strpos($uri, '/') + 1);
-                } else {
-                    $this->project = $uri;
-                    $uri = "";
-                }
+                $uri = explode('/', $uri);
+                $this->project = array_shift($uri);
+                $uri = implode('/', $uri);
             }
         }
 
-        $path = explode('/', ltrim($uri, '/'));
+        $path = explode('/', trim($uri, '/'));
 
         $this->controller = $path[0] ?? $this->controller;
         $this->action = $path[1] ?? $this->action;
@@ -58,7 +54,7 @@ class Router extends Decorator
     public function execute(Request $request, Response $response)
     {
         $uri = parse_url($request->server('REQUEST_URI'), PHP_URL_PATH);
-        if ($action = $this->match($uri, $request)) {
+        if ($action = $this->match(trim($uri, '/'), $request)) {
             $this->prev()->handle($this->load($action));
         }
         $request->server('project', $this->project);
