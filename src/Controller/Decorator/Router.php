@@ -14,16 +14,15 @@ class Router extends Decorator
     public string $action;
     protected function match($uri, $request)
     {
-        $this->project =  $request->server('REQUEST_PROJECT') ?? Configure::read('decorator.router.default.project', '');
-        $this->controller = Configure::read('decorator.router.default.controller', '');
-        $this->action = Configure::read('decorator.router.default.action', '');
+        $this->project =  $request->server('REQUEST_PROJECT');
         if (empty($this->project)) {
             $aliases = Configure::read('decorator.router.aliases');
             if (!empty($aliases)) {
                 foreach ($aliases as $alias => $config) {
                     if (preg_match($alias, $uri, $matches)) {
                         $this->project = $config['project'];
-                        $uri = "{$config['controller']}/{$config['action']}";
+                        $this->controller = $config['controller'];
+                        $this->action = $config['action'];
                         if (!empty($config['params'])) {
                             foreach ($config['params'] as $k => $v) {
                                 $request->get($v, $matches[$k + 1]);
@@ -32,18 +31,21 @@ class Router extends Decorator
                     }
                 }
             }
-
-            if (empty($this->project)) {
-                $uri = explode('/', $uri);
-                $this->project = array_shift($uri);
-                $uri = implode('/', $uri);
-            }
         }
 
         $path = explode('/', trim($uri, '/'));
+        
+        if (empty($this->project)) {
+            $this->project = array_shift($path) ?? Configure::read('decorator.router.default.project');
+        }
 
-        $this->controller = array_shift($path) ?? $this->controller;
-        $this->action = empty($path) ? $this->action : implode('\\', $path);
+        if (empty($this->controller)) {
+            $this->controller = array_shift($path) ?? Configure::read('decorator.router.default.controller');
+        }
+
+        if (empty($this->action)) {
+            $this->action = empty($path) ? Configure::read('decorator.router.default.action') : implode('\\', $path);
+        }
 
         $prefix = Configure::read("decorator.router.{$this->project}.prefix")
             ?? Configure::read('decorator.router.default.prefix')
