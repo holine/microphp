@@ -22,6 +22,7 @@ class Base
     protected $join = [];
     protected $on = [];
     protected $config;
+    protected $table;
     public function __construct()
     {
         $this->driver ??= Configure::read('PDO.driver') ?? 'MySQL';
@@ -37,5 +38,13 @@ class Base
     public function prepare(string $sql)
     {
         return $this->handle->prepare($sql);
+    }
+
+    public function insert($data)
+    {
+        $sql = "INSERT INTO {$this->table} (`" . implode("`,`", array_keys($data)) . "`) VALUES (" . implode(', ', array_fill(0, count($data), '?')) . ");";
+        $sth = $this->prepare($sql);
+        $sth->execute(array_values($data));
+        return $this->handle->lastInsertId();
     }
 }
