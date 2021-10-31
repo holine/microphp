@@ -29,10 +29,10 @@ class Base
         $this->config = Configure::read($this->driver);
         $this->driver = 'MicroPHP\\Model\\' . $this->driver;
         $this->handle = new PDO($this->driver::dsn($this->config), $this->config['username'] ?? null, $this->config['password'] ?? null);
-    }
-    public function query(string $sql)
-    {
-        return $this->handle->query($sql);
+        if (empty($this->table)) {
+            $this->table = explode('\\', strtolower(get_called_class()));
+            $this->table = array_pop($this->table);
+        }
     }
 
     public function prepare(string $sql)
