@@ -23,7 +23,7 @@ class HttpResponse extends Response
         $this->assign[$key] = $value;
     }
 
-    public function display(string $template, string $extension = 'phtml')
+    public function display(string $template = 'index', string $extension = 'phtml')
     {
         $this->template = $template;
         extract($this->assign);

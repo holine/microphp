@@ -33,7 +33,7 @@ class Router extends Decorator
             }
         }
 
-        $path = explode('/', trim($uri, '/'));
+        $path = empty($uri) ? [] : explode('/', trim($uri, '/'));
 
         if (empty($this->project)) {
             $this->project = array_shift($path) ?? Configure::read('decorator.router.default.project');

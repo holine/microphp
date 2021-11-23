@@ -6,4 +6,7 @@ use MicroPHP\Controller\Response;
 
 class ShellResponse extends Response
 {
+    public function display()
+    {
+    }
 }
