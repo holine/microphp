@@ -29,7 +29,7 @@ class Base
         $this->driver ??= Configure::read('PDO.driver') ?? 'MySQL';
         $this->config = Configure::read($this->driver);
         $this->driver = 'MicroPHP\\Model\\' . $this->driver;
-        $this->handle = new PDO($this->driver::dsn($this->config), $this->config['username'] ?? null, $this->config['password'] ?? null);
+        $this->handle = new PDO($this->driver::dsn($this->config), $this->config['username'] ?? null, $this->config['password'] ?? null, $this->config['options'] ?? null);
         if (empty($this->table)) {
             $this->table = explode('\\', strtolower(preg_replace('/[A-Z]/', '_\\0', get_called_class())));
             $this->table = trim(array_pop($this->table), '_');
