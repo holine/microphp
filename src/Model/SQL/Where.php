@@ -35,7 +35,7 @@ class Where
             if ($this->is_assoc($this->where)) {
                 return [
                     'sql' => empty($this->where) ? '' : ($prefix . ' ' . implode(" {$separator} ", array_map(fn($item) => "`{$item}` = ?", array_keys($this->where)))),
-                    'value' => array_values($this->where),
+                    'value' => array_values(is_array($this->where) ? $this->where : []),
                 ];
             }
         }
