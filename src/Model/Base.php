@@ -160,4 +160,9 @@ class Base
         $sth->execute($sql['value']);
         return $sth;
     }
+
+    public function getHandle()
+    {
+        return $this->handle;
+    }
 }
