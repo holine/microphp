@@ -20,6 +20,9 @@ class Where
     }
     private function is_assoc($array)
     {
+        if (!is_array($array)) {
+            $array = [];
+        }
         return array_reduce(array_keys($array), fn($reduce, $item) => $reduce && is_string($item), true);
     }
     private function is_index($array)
