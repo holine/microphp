@@ -24,7 +24,7 @@ class Request
         $this->server = $_SERVER;
     }
 
-    protected function call(string $fn, string $key = null, mixed $value = null)
+    protected function call(string $fn, string|null $key = null, mixed $value = null)
     {
         switch (func_num_args() - 1) {
             case 1:

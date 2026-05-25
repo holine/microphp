@@ -2,7 +2,7 @@
 
 namespace MicroPHP;
 
-function autoload(String $class, String $namespace = __NAMESPACE__, String $path = null)
+function autoload(String $class, String $namespace = __NAMESPACE__, String|null $path = null)
 {
     $path ??= dirname(__DIR__);
     if (strpos($class, $namespace . '\\') === 0) {

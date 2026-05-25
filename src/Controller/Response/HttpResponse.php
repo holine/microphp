@@ -10,7 +10,7 @@ class HttpResponse extends Response
     protected string $template = '';
     protected array $assign = [];
 
-    public function directory(string $directory = null): string
+    public function directory(string|null $directory = null): string
     {
         if (func_num_args()) {
             $this->directory = $directory;

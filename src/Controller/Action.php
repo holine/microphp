@@ -14,7 +14,7 @@ abstract class Action
         $this->handle = $handle;
     }
 
-    public function compile(Action $action = null): Action
+    public function compile(Action|null $action = null): Action
     {
         $action ??= $this;
         $decorators = [];
